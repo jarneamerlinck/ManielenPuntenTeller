@@ -5,6 +5,7 @@ import org.w3c.dom.*;
 import java.util.ArrayList;
 
 public abstract class Looping {
+    //TODO te verwijderen na Xml gefixed
     private int index;
     private ArrayList<Integer> indexs;
     private String[] player;

@@ -35,6 +35,7 @@ public class Xml {
      *  Starts reading the file and checking if the file is there
      * @param path the relative or absolute path to the '.xml' file
      */
+    //TODO Looping wegwerken streams or Lambda functions
     public Xml(String path) {
         this.path=path;
         factory = DocumentBuilderFactory.newInstance();

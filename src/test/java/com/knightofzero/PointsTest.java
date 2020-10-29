@@ -98,13 +98,26 @@ class PointsTest {
         assert (punten.getZ_Points()==8*2*2+15);
         assert (punten.getW_Points()==11);
     }
-
+    /*
     @Test
     void getW_Wins() {
+        //Werkt nog niet zonder xml file
+        punten.addW_Points(11,false,false);
+        punten.addZ_Points(6,false,false);
+        punten.addZ_Points(25,false,false);
+        punten.addW_Points(5,false,false);
+        punten.addZ_Points(30,true,false);
+        punten.addW_Points(15,false,false);
+        punten.addZ_Points(5,true,false);
+
+        //W:31,Z:91
     }
 
     @Test
     void getZ_Wins() {
     }
+    */
+
+    //TODO test file XML voor namen toe te kunnen voegen
 
 }
