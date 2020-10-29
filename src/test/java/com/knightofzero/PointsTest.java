@@ -71,9 +71,31 @@ class PointsTest {
         punten.addZ_Points(15,false,false);
         assert (punten.getZ_Points()==15);
         assert (punten.getW_Points()==11);
-        punten.addW_Points(0,false,false);
+        punten.addW_Points(0,false,false);//nul dus volgede dubbel
         punten.addZ_Points(8,false,false);
-        assert (punten.getZ_Points()==16+15);
+        assert (punten.getZ_Points()==8*2+15);
+        assert (punten.getW_Points()==11);
+    }
+    @Test
+    void testDubbelMee() {
+        punten.addW_Points(11,false,false);
+        punten.addZ_Points(15,false,false);
+        assert (punten.getZ_Points()==15);
+        assert (punten.getW_Points()==11);
+        punten.addW_Points(0,false,false);//nul dus volgede dubbel
+        punten.addZ_Points(8,true,false);
+        assert (punten.getZ_Points()==8*2*2+15);
+        assert (punten.getW_Points()==11);
+    }
+    @Test
+    void testDubbelTegen() {
+        punten.addW_Points(11,false,false);
+        punten.addZ_Points(15,false,false);
+        assert (punten.getZ_Points()==15);
+        assert (punten.getW_Points()==11);
+        punten.addW_Points(0,false,false);//nul dus volgede dubbel
+        punten.addZ_Points(8,true,true);
+        assert (punten.getZ_Points()==8*2*2+15);
         assert (punten.getW_Points()==11);
     }
 
