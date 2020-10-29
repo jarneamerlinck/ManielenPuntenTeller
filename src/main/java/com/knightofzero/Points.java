@@ -23,6 +23,7 @@ public class Points {
             Z_Points = 0;
             W_Wins = 0;
             Z_Wins = 0;
+            Z_Wins = 0;
             this.file = file;
         }
         else {
@@ -52,7 +53,6 @@ public class Points {
     public void xml(String path) {
         file = new Xml(path);
         System.out.println(path);
-
     }
 
     /**
@@ -151,7 +151,8 @@ public class Points {
         Z_Points = 0;
         W_Wins = 0;
         Z_Wins = 0;
-        System.out.println("All scores/wins removed");
+        Multiplier=1;
+        //System.out.println("All scores/wins removed");
     }
 
     /**
