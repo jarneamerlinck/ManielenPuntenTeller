@@ -1,5 +1,9 @@
 package com.knightofzero;
 
+import org.xml.sax.SAXException;
+
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Points {
@@ -51,7 +55,15 @@ public class Points {
      * @param path the relative or absolute path to the '.xml' file
      */
     public void xml(String path) {
-        file = new Xml(path);
+        try {
+            file = new Xml(path);
+        } catch (ParserConfigurationException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         System.out.println(path);
     }
 

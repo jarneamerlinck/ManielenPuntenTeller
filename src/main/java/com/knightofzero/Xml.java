@@ -6,10 +6,10 @@ import org.xml.sax.SAXException;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,16 +36,12 @@ public class Xml {
      * @param path the relative or absolute path to the '.xml' file
      */
     //TODO Looping wegwerken streams or Lambda functions
-    public Xml(String path) {
+    public Xml(String path) throws ParserConfigurationException,SAXException, IOException{
         this.path=path;
         factory = DocumentBuilderFactory.newInstance();
-        try {
-            builder = factory.newDocumentBuilder();
-            doc = builder.parse(path);
-            getAllInformation(false);
-        } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
-        }
+        builder = factory.newDocumentBuilder();
+        doc = builder.parse(path);
+        getAllInformation(false);
     }
     /**
      * returns the name of the first player of the first team
@@ -96,7 +92,7 @@ public class Xml {
      * returns the name of the second player of the second team
      * @return a String
      */
-    public String getZ2_Player2() {
+    public String getZ_Player2() {
         return Z2;
     }
     /**
@@ -403,6 +399,25 @@ public class Xml {
             System.out.println("Boom saving error");
         }
 
+
+
+    }
+    public void getInformation(String PlayerName){
+        //String ToReturn =null;
+        NodeList personList = doc.getElementsByTagName("person");
+        Stream<Node> nodeStream = IntStream.range(0, personList.getLength())
+                .mapToObj(personList::item);
+        nodeStream
+                .filter(node -> node.getNodeType()==Node.ELEMENT_NODE)
+                .map(node -> (Element) node)
+                .map(n -> n.getChildNodes())
+                .map(n -> (Node) n)
+                .filter(n -> n.getNodeType()==Node.ELEMENT_NODE)
+                .map(node -> (Element) node)
+                .forEach(System.out::println)
+
+
+        ;
 
 
     }
