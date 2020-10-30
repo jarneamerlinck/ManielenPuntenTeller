@@ -404,6 +404,7 @@ public class Xml {
     }
     public void getInformation(String PlayerName){
         //String ToReturn =null;
+        //TODO xml stream mss beter via ander methode om xml te lezen die streams wel ondersteund
         NodeList personList = doc.getElementsByTagName("person");
         Stream<Node> nodeStream = IntStream.range(0, personList.getLength())
                 .mapToObj(personList::item);
