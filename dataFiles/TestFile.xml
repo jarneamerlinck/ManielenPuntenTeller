@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><manielen>
+<people id="people">
+	<person id="0"><name>Jarne</name><wins>1</wins><rank>1</rank></person>
+	<person id="1"><name>Alexander</name><wins>1</wins><rank>2</rank></person>
+	<person id="2"><name>Rubben</name><wins>0</wins><rank>4</rank></person>
+	<person id="3"><name>Willem</name><wins>0</wins><rank>0</rank></person>
+	<person id="4"><name>Jochen</name><wins>0</wins><rank>0</rank></person>
+</people>
+<scores id="scores">
+	<game nr="0"><W id1="1" id2="2"/><Z id1="3" id2="4"/><gameScore>2-1</gameScore><boom nr="0"><EndPoints>103-53</EndPoints></boom><boom nr="1"><EndPoints>86-101</EndPoints></boom><boom nr="2"><EndPoints>116-25</EndPoints></boom>
+	</game><game nr="1"><gameScore>0-0</gameScore><W id1="0" id2="1"/><Z id1="2" id2="14"/></game>
+	
+	</scores>
+	</manielen>
