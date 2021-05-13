@@ -60,8 +60,8 @@ public class Gui extends JFrame {
                     else {
                         score.setNames_W(name[0],name[1]);
                         score.setNames_Z(name[2],name[3]);
-                        JOptionPane.showConfirmDialog(rootPane, String.format("The teams are %s en %s vs. %s en %s", score.getNames_W()[0],score.getNames_W()[1],score.getNames_Z()[0],score.getNames_Z()[1]), "Continu is correct", JOptionPane.OK_CANCEL_OPTION);
-                        w.setText(String.format("%s en %s vs. %s en %s", score.getNames_W()[0],score.getNames_W()[1],score.getNames_Z()[0],score.getNames_Z()[1]));
+                        JOptionPane.showConfirmDialog(rootPane, String.format("The teams are %s en %s vs. %s en %s", score.getNamesOfPlayersInWe()[0],score.getNamesOfPlayersInWe()[1],score.getNamesOfPlayersInThem()[0],score.getNamesOfPlayersInThem()[1]), "Continu is correct", JOptionPane.OK_CANCEL_OPTION);
+                        w.setText(String.format("%s en %s vs. %s en %s", score.getNamesOfPlayersInWe()[0],score.getNamesOfPlayersInWe()[1],score.getNamesOfPlayersInThem()[0],score.getNamesOfPlayersInThem()[1]));
                         newGame.hide();
                         remove(newGame);
                         score.newgame();
@@ -77,7 +77,7 @@ public class Gui extends JFrame {
             }
         });
 
-        currentScore.setText(String.format("Wins: %d-%d\n\nCurrent: %d-%d", score.getW_Wins(),score.getZ_Wins(),score.getW_Points(),score.getZ_Points()));
+        currentScore.setText(String.format("Wins: %d-%d\n\nCurrent: %d-%d", score.getNumberOfWonGamesOfWe(),score.getNumberOfWonGamesOfThem(),score.getPointsOfWe(),score.getPointsOfThem()));
         add(currentScore,BorderLayout.CENTER);
         addscore.addActionListener(new ActionListener() {
 
@@ -85,7 +85,7 @@ public class Gui extends JFrame {
             public void actionPerformed(ActionEvent arg0) {
                 ad.frame.setLocationRelativeTo(rootPane);
                 ad.frame.setVisible(true);
-                currentScore.setText(String.format("Wins: %d-%d\n\nCurrent: %d-%d", score.getW_Wins(),score.getZ_Wins(),score.getW_Points(),score.getZ_Points()));
+                currentScore.setText(String.format("Wins: %d-%d\n\nCurrent: %d-%d", score.getNumberOfWonGamesOfWe(),score.getNumberOfWonGamesOfThem(),score.getPointsOfWe(),score.getPointsOfThem()));
 
             }
         });

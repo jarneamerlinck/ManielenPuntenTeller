@@ -16,7 +16,7 @@ class XmlTest {
     @Test
     void getFileWrongLocation(){
         try {
-            Xml xml = new Xml("dataFiles/DoesNotExist.xml");
+            new Xml("dataFiles/DoesNotExist.xml");
         } catch (SAXException | IOException |ParserConfigurationException e) {
             System.out.println(e.getMessage());
             assertTrue(true);

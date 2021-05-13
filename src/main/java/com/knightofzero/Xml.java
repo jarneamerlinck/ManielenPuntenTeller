@@ -23,10 +23,7 @@ public class Xml {
     private Document doc;
     private DocumentBuilder builder;
     public String path;
-    private String W1;
-    private String W2;
-    private String Z1;
-    private String Z2;
+    private String W1,W2,Z1,Z2;
     private String[][] players;//{{ID,name},...}
     private String GameNr;
     private int boomCurrent=0;

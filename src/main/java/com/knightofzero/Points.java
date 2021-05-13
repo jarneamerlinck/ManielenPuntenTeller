@@ -7,45 +7,48 @@ import java.io.IOException;
 import java.util.Scanner;
 
 public class Points {
-    private Xml file;
-    private int W_Points;
-    private int Z_Points;
-    private int W_Wins;
-    private int Z_Wins;
-    private String [] Names_W;
-    private String [] Names_Z;
-    private int Multiplier;
+    private Xml xmlFile;
+    private int pointsOfWe;
+    private int pointsOfThem;
+    private int numberOfWonGamesOfWe;
+    private int numberOfWonGamesOfThem;
+    private String [] NamesOfPlayersInWe;
+    private String [] NamesOfPlayersInThem;
+    private int pointMultiplier;
     /**
      * The constructor initialize the private varriables
      * @param StartNew Is this het beginning of the game
      */
+    public Points() {
+        this(true);
+    }
     public Points(Boolean StartNew) {
-        Names_W = new String[2];
-        Names_Z = new String[2];
+        NamesOfPlayersInWe = new String[2];
+        NamesOfPlayersInThem = new String[2];
         if (StartNew) {
-            W_Points = 0;
-            Z_Points = 0;
-            W_Wins = 0;
-            Z_Wins = 0;
-            Z_Wins = 0;
-            this.file = file;
+            pointsOfWe = 0;
+            pointsOfThem = 0;
+            numberOfWonGamesOfWe = 0;
+            numberOfWonGamesOfThem = 0;
+            numberOfWonGamesOfThem = 0;
+            this.xmlFile = xmlFile;
         }
         else {
             Scanner Input = new Scanner(System.in);
             System.out.println("Home team wins: ");
-            W_Wins = Input.nextInt();
+            numberOfWonGamesOfWe = Input.nextInt();
             System.out.println("Out team wins:");
-            Z_Wins = Input.nextInt();
+            numberOfWonGamesOfThem = Input.nextInt();
             System.out.println("What is the current game stand(home-Out): ");
             String current  = Input.next();
             String Score[] = current.split("-");
-            W_Points = Integer.parseInt(Score[0]);
-            Z_Points = Integer.parseInt(Score[1]);
-            System.out.printf("\nThe wins score is %d-%d, in the current game the score is %d-%d\n",W_Wins,Z_Wins,W_Points,Z_Points);
+            pointsOfWe = Integer.parseInt(Score[0]);
+            pointsOfThem = Integer.parseInt(Score[1]);
+            System.out.printf("\nThe wins score is %d-%d, in the current game the score is %d-%d\n", numberOfWonGamesOfWe, numberOfWonGamesOfThem, pointsOfWe, pointsOfThem);
             Input.close();
 
         }
-        Multiplier=1;
+        pointMultiplier =1;
 
 
     }
@@ -56,7 +59,7 @@ public class Points {
      */
     public void xml(String path) {
         try {
-            file = new Xml(path);
+            xmlFile = new Xml(path);
         } catch (ParserConfigurationException e) {
             e.printStackTrace();
         } catch (SAXException e) {
@@ -71,8 +74,8 @@ public class Points {
      * returns the current points for the first team on
      * @return this returns a value of the type int
      */
-    public int getW_Points() {
-        return W_Points;
+    public int getPointsOfWe() {
+        return pointsOfWe;
     }
     /**
      * adding points to the first team
@@ -88,14 +91,14 @@ public class Points {
      * returns the current points for the second team on
      * @return this returns a value of the type int
      */
-    public int getZ_Points() {
-        return Z_Points;
+    public int getPointsOfThem() {
+        return pointsOfThem;
     }
-    public int getW_Wins() {
-        return W_Wins;
+    public int getNumberOfWonGamesOfWe() {
+        return numberOfWonGamesOfWe;
     }
-    public int getZ_Wins() {
-        return Z_Wins;
+    public int getNumberOfWonGamesOfThem() {
+        return numberOfWonGamesOfThem;
     }
     /**
      * adding points to the second team
@@ -113,14 +116,14 @@ public class Points {
      */
     @Override
     public String toString() {
-        return String.format("The wins score is %d-%d, in the current game the score is %d-%d\n",W_Wins,Z_Wins,W_Points,Z_Points);
+        return String.format("The wins score is %d-%d, in the current game the score is %d-%d\n", numberOfWonGamesOfWe, numberOfWonGamesOfThem, pointsOfWe, pointsOfThem);
     }
     /**
      * Returns the names of the players in the first team
      * @return an array of 2 elements of the String type
      */
-    public String[] getNames_W() {
-        return Names_W;
+    public String[] getNamesOfPlayersInWe() {
+        return NamesOfPlayersInWe;
     }
 
     /**
@@ -129,18 +132,18 @@ public class Points {
      * @param name2_W name of the second player
      */
     public void setNames_W(String name1_W,String name2_W) {
-        Names_W[0] = name1_W;
-        Names_W[1] = name2_W;
-        file.setW_Player1(name1_W);
-        file.setW_Player2(name2_W);
+        NamesOfPlayersInWe[0] = name1_W;
+        NamesOfPlayersInWe[1] = name2_W;
+        xmlFile.setW_Player1(name1_W);
+        xmlFile.setW_Player2(name2_W);
     }
 
     /**
      * Returns the names of the players in the second team
      * @return an array of 2 elements of the String type
      */
-    public String[] getNames_Z() {
-        return Names_Z;
+    public String[] getNamesOfPlayersInThem() {
+        return NamesOfPlayersInThem;
     }
     /**
      * Setting the names of the player in the second team
@@ -148,10 +151,10 @@ public class Points {
      * @param name2_Z name of the second player
      */
     public void setNames_Z(String name1_Z,String name2_Z) {
-        Names_Z[0] = name1_Z;
-        Names_Z[1] = name2_Z;
-        file.setZ_Player1(name1_Z);
-        file.setZ_Player2(name2_Z);
+        NamesOfPlayersInThem[0] = name1_Z;
+        NamesOfPlayersInThem[1] = name2_Z;
+        xmlFile.setZ_Player1(name1_Z);
+        xmlFile.setZ_Player2(name2_Z);
 
     }
 
@@ -159,11 +162,11 @@ public class Points {
      * The constructor sets all of the variables for the object back to the original initialized values
      */
     public void reset() {
-        W_Points = 0;
-        Z_Points = 0;
-        W_Wins = 0;
-        Z_Wins = 0;
-        Multiplier=1;
+        pointsOfWe = 0;
+        pointsOfThem = 0;
+        numberOfWonGamesOfWe = 0;
+        numberOfWonGamesOfThem = 0;
+        pointMultiplier =1;
         //System.out.println("All scores/wins removed");
     }
 
@@ -174,14 +177,14 @@ public class Points {
      *
      */
     public boolean newgame() {
-        if (Names_W[0]==null||Names_W[1]==null||Names_Z[0]==null||Names_W[1]==null) {
+        if (NamesOfPlayersInWe[0]==null|| NamesOfPlayersInWe[1]==null|| NamesOfPlayersInThem[0]==null|| NamesOfPlayersInWe[1]==null) {
             return false;
         }
-        else if (Names_W[0]==""||Names_W[1]==""||Names_Z[0]==""||Names_W[1]=="") {
+        else if (NamesOfPlayersInWe[0]==""|| NamesOfPlayersInWe[1]==""|| NamesOfPlayersInThem[0]==""|| NamesOfPlayersInWe[1]=="") {
             return false;
         }
         else {
-            file.makegame();
+            xmlFile.makegame();
             return true;
         }
 
@@ -208,34 +211,34 @@ public class Points {
     private void countPoints(int number,int multiplier,String who) {
         //TODO updating
         //Multiplier=multiplier;s
-        if (Multiplier==2&&multiplier != 4){//alles met vorige keer dubbel
-            Multiplier*=multiplier;
+        if (pointMultiplier ==2&&multiplier != 4){//alles met vorige keer dubbel
+            pointMultiplier *=multiplier;
         }
         else{//
-            Multiplier=multiplier;
+            pointMultiplier =multiplier;
         }
         if (number==0){
-            Multiplier=2;
+            pointMultiplier =2;
         }
         else if (number==30){
-            Multiplier*=2;
-            System.out.println(Multiplier);
-            number=number*Multiplier;
+            pointMultiplier *=2;
+            System.out.println(pointMultiplier);
+            number=number* pointMultiplier;
         }
         else {
-            number=number*Multiplier;
-            Multiplier=1;
+            number=number* pointMultiplier;
+            pointMultiplier =1;
         }
-        if (W_Points==0&&Z_Points==0&&number==120){
+        if (pointsOfWe ==0&& pointsOfThem ==0&&number==120){
             number=90;
         }
         //Na de punten herrekening
-        int total = number + ((who.equalsIgnoreCase("w")) ? W_Points:Z_Points);
+        int total = number + ((who.equalsIgnoreCase("w")) ? pointsOfWe : pointsOfThem);
         if( who.equalsIgnoreCase("w")){
-            W_Points=total;
+            pointsOfWe =total;
         }
         else {
-            Z_Points=total;
+            pointsOfThem =total;
         }
         if (total>=101) {
             GameEnd(who);
@@ -256,21 +259,21 @@ public class Points {
      */
     private void GameEnd(String Who) {
         if (Who.equalsIgnoreCase("w")) {
-            file.saveboom(String.format("%d-%d", W_Points,Z_Points));
-            W_Wins +=1;
-            W_Points=0;
-            Z_Points=0;
+            xmlFile.saveboom(String.format("%d-%d", pointsOfWe, pointsOfThem));
+            numberOfWonGamesOfWe +=1;
+            pointsOfWe =0;
+            pointsOfThem =0;
         }
         else if (Who.equalsIgnoreCase("z")) {
-            file.saveboom(String.format("%d-%d", W_Points,Z_Points));
-            Z_Wins +=1;
-            W_Points=0;
-            Z_Points=0;
+            xmlFile.saveboom(String.format("%d-%d", pointsOfWe, pointsOfThem));
+            numberOfWonGamesOfThem +=1;
+            pointsOfWe =0;
+            pointsOfThem =0;
         }
         else {
             System.out.println("Error");
         }
-        file.updatingRanking();
+        xmlFile.updatingRanking();
 
     }
 }
