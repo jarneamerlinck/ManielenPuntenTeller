@@ -13,6 +13,7 @@ public class App {
    *
    */
   public static void main(String[] args) {
+    /*
     System.out.println("WIP");
     try {
       Xml xmlFile = new Xml("dataFiles/TestFile.xml");
@@ -24,7 +25,7 @@ public class App {
     } catch (IOException e) {
       e.printStackTrace();
     }
-
+    */
 
     Points score = new Points(true);
     Gui frame = new Gui(score);

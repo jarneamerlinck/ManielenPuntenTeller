@@ -6,6 +6,8 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 import java.util.Scanner;
 
+import static com.knightofzero.ScoreValues.*;
+
 public class Points {
     private Xml xmlFile;
     private int pointsOfWe;
@@ -15,42 +17,52 @@ public class Points {
     private String [] NamesOfPlayersInWe;
     private String [] NamesOfPlayersInThem;
     private int pointMultiplier;
-    /**
-     * The constructor initialize the private varriables
-     * @param StartNew Is this het beginning of the game
-     */
+    private Scanner input;
+
     public Points() {
         this(true);
     }
-    public Points(Boolean StartNew) {
+    public Points(Boolean startNew) {
+        giveAllVariablesStartValues();
+        if (!startNew) {
+            getStartValuesFromInput();
+            printCurrentGame();
+        }
+    }
+
+    private void getStartValuesFromInput() {
+        input = new Scanner(System.in);
+        numberOfWonGamesOfWe = getInputInt("Home team wins: ");
+        numberOfWonGamesOfThem = getInputInt("Out team wins: ");
+        String score[] = getInputScore("What is the current game stand(home-Out): ");
+        pointsOfWe = Integer.parseInt(score[0]);
+        pointsOfThem = Integer.parseInt(score[1]);
+        input.close();
+    }
+
+    private void printCurrentGame() {
+        System.out.printf("\nThe wins score is %d-%d, in the current game the score is %d-%d\n", numberOfWonGamesOfWe, numberOfWonGamesOfThem, pointsOfWe, pointsOfThem);
+    }
+
+    private int getInputInt(String question) {
+        System.out.println(question);
+        return input.nextInt();
+    }
+    private String[] getInputScore(String question) {
+        System.out.println(question);
+        return input.next().split("-");
+    }
+
+    private void giveAllVariablesStartValues() {
         NamesOfPlayersInWe = new String[2];
         NamesOfPlayersInThem = new String[2];
-        if (StartNew) {
-            pointsOfWe = 0;
-            pointsOfThem = 0;
-            numberOfWonGamesOfWe = 0;
-            numberOfWonGamesOfThem = 0;
-            numberOfWonGamesOfThem = 0;
-            this.xmlFile = xmlFile;
-        }
-        else {
-            Scanner Input = new Scanner(System.in);
-            System.out.println("Home team wins: ");
-            numberOfWonGamesOfWe = Input.nextInt();
-            System.out.println("Out team wins:");
-            numberOfWonGamesOfThem = Input.nextInt();
-            System.out.println("What is the current game stand(home-Out): ");
-            String current  = Input.next();
-            String Score[] = current.split("-");
-            pointsOfWe = Integer.parseInt(Score[0]);
-            pointsOfThem = Integer.parseInt(Score[1]);
-            System.out.printf("\nThe wins score is %d-%d, in the current game the score is %d-%d\n", numberOfWonGamesOfWe, numberOfWonGamesOfThem, pointsOfWe, pointsOfThem);
-            Input.close();
+        xmlFile = null;
 
-        }
-        pointMultiplier =1;
-
-
+        pointsOfWe = 0;
+        pointsOfThem = 0;
+        numberOfWonGamesOfWe = 0;
+        numberOfWonGamesOfThem = 0;
+        pointMultiplier = 1;
     }
 
     /**
@@ -83,8 +95,7 @@ public class Points {
      * @param mee a boolean that multiplied by 2
      * @param tegen a boolean that multiplied by 2
      */
-    public void addW_Points(int adding,boolean mee,boolean tegen) {
-
+    public void increasePointsOfWe(int adding, boolean mee, boolean tegen) {
         addPoints(adding,mee,tegen,"W");
     }
     /**
@@ -106,18 +117,10 @@ public class Points {
      * @param mee a boolean that multiplied by 2
      * @param tegen a boolean that multiplied by 2
      */
-    public void addZ_Points(int adding,boolean mee,boolean tegen) {
-
+    public void increasePointsOfThem(int adding, boolean mee, boolean tegen) {
         addPoints(adding,mee,tegen,"Z");
     }
-    /**
-     * Returns a current stand of the games
-     * @return value of the type String
-     */
-    @Override
-    public String toString() {
-        return String.format("The wins score is %d-%d, in the current game the score is %d-%d\n", numberOfWonGamesOfWe, numberOfWonGamesOfThem, pointsOfWe, pointsOfThem);
-    }
+
     /**
      * Returns the names of the players in the first team
      * @return an array of 2 elements of the String type
@@ -193,87 +196,135 @@ public class Points {
     /**
      * This method is private and used for adding and writing to the .xml file.
      * This method also decides is the 'boom' has ended
-     * @param number a value of the type int
+     * @param score a value of the type int
      * @param mee a boolean that multiplied by 2
      * @param tegen a boolean that multiplied by 2
      * @param who a String that indicated who has won the points
      */
-    private void addPoints(int number,boolean mee,boolean tegen,String who){
-        int multiplier=1;
-        if (mee&&!tegen){
-            multiplier=2;
+    private void addPoints(int score,boolean mee,boolean tegen,String who){
+        if(isCorrectMultiplierBooleans(mee, tegen)){
+            score = calculateScore(score, mee, tegen);
+
+            addScoreToPoints(score, who);
         }
-        else if (mee&&tegen){
-            multiplier=4;
-        }
-        countPoints(number,multiplier,who);
+
     }
-    private void countPoints(int number,int multiplier,String who) {
-        //TODO updating
-        //Multiplier=multiplier;s
-        if (pointMultiplier ==2&&multiplier != 4){//alles met vorige keer dubbel
-            pointMultiplier *=multiplier;
+    private int calculateScoreRuleMaxAtStartGame(int score, boolean mee){
+        if (isMaxScoreFromStartGame(score, mee)){
+            pointMultiplier = 1;
+            return SCOREMAXSTARTGAME.getScore();
         }
-        else{//
-            pointMultiplier =multiplier;
+        return score;
+    }
+    private int calculateRuleScoreNull(int score, boolean mee, boolean tegen){
+        if(isScoreNull(score)){
+            pointMultiplier *= 2;
         }
-        if (number==0){
-            pointMultiplier =2;
+        else if (isMultiplierBeforeGameMax()){
+            pointMultiplier = 1;
+            return score * 4;
         }
-        else if (number==30){
-            pointMultiplier *=2;
-            System.out.println(pointMultiplier);
-            number=number* pointMultiplier;
+        else if(isScoreMaxAndNotMee(score, mee)){
+            return calculateScoreWithMultiplier(score, tegen);
         }
-        else {
-            number=number* pointMultiplier;
-            pointMultiplier =1;
+        return score;
+    }
+    private int calculateScore(int score, boolean mee, boolean tegen) {
+        score = calculateScoreRuleMaxAtStartGame(score, mee);
+        score = calculateRuleScoreNull(score, mee, tegen);
+        if (isScoreMax(score)){
+            return getScoreIfScoreMax(score, mee, tegen);
         }
-        if (pointsOfWe ==0&& pointsOfThem ==0&&number==120){
-            number=90;
+        return score;
+    }
+
+    private boolean isScoreMax(int score) {
+        return score == SCOREMAXINPUT.getScore();
+    }
+
+    private int getScoreIfScoreMax(int score, boolean mee, boolean tegen) {
+        return (mee) ? calculateScoreWithMultiplier(score *2, tegen) : 60;
+    }
+
+    private boolean isScoreMaxAndNotMee(int score, boolean mee) {
+        return mee&&score!= SCOREMAXINPUT.getScore();
+    }
+
+    private int calculateScoreWithMultiplier(int score, boolean tegen) {
+        int currentMultiplier = pointMultiplier*2;
+        if(tegen){
+            currentMultiplier = MAX_MULTIPLIER.getScore();
         }
-        //Na de punten herrekening
-        int total = number + ((who.equalsIgnoreCase("w")) ? pointsOfWe : pointsOfThem);
+        score *= currentMultiplier;
+        return score;
+    }
+
+    private boolean isScoreNull(int score) {
+        return score == 0;
+    }
+
+    private boolean isMultiplierBeforeGameMax() {
+        return pointMultiplier == MAX_MULTIPLIER.getScore();
+    }
+
+    private boolean isMaxScoreFromStartGame(int score, boolean mee) {
+        return pointsOfWe == 0 && pointsOfThem == 0 && isScoreMax(score) && mee;
+    }
+
+
+    private boolean isCorrectMultiplierBooleans(boolean mee, boolean tegen) {
+        return !(!mee&&tegen);
+    }
+
+
+    private void addScoreToPoints(int score, String who) {
+        int total = score + ((who.equalsIgnoreCase("w")) ? pointsOfWe : pointsOfThem);
         if( who.equalsIgnoreCase("w")){
-            pointsOfWe =total;
+            pointsOfWe = total;
         }
         else {
-            pointsOfThem =total;
+            pointsOfThem = total;
         }
         if (total>=101) {
-            GameEnd(who);
+            EndCurrentGame(who);
         }
     }
 
-    /**
-     * print an error
-     */
-    private void error() {
-        System.out.println("Error");
 
-    }
+
 
     /**
      * Private method that adds 1 to the counter of the won games for both teams
      * @param Who
      */
-    private void GameEnd(String Who) {
+    private void EndCurrentGame(String Who) {
         if (Who.equalsIgnoreCase("w")) {
-            xmlFile.saveboom(String.format("%d-%d", pointsOfWe, pointsOfThem));
+            SaveBoom();
             numberOfWonGamesOfWe +=1;
-            pointsOfWe =0;
-            pointsOfThem =0;
         }
         else if (Who.equalsIgnoreCase("z")) {
-            xmlFile.saveboom(String.format("%d-%d", pointsOfWe, pointsOfThem));
+            SaveBoom();
             numberOfWonGamesOfThem +=1;
-            pointsOfWe =0;
-            pointsOfThem =0;
         }
         else {
             System.out.println("Error");
         }
         xmlFile.updatingRanking();
 
+    }
+
+    private void SaveBoom() {
+        xmlFile.saveboom(String.format("%d-%d", pointsOfWe, pointsOfThem));
+        pointsOfWe =0;
+        pointsOfThem =0;
+    }
+
+    /**
+     * Returns a current stand of the games
+     * @return value of the type String
+     */
+    @Override
+    public String toString() {
+        return String.format("The wins score is %d-%d, in the current game the score is %d-%d\n", numberOfWonGamesOfWe, numberOfWonGamesOfThem, pointsOfWe, pointsOfThem);
     }
 }

@@ -45,62 +45,62 @@ class PointsTest {
 
     @Test
     void addW_Points() {
-        punten.addW_Points(15,false,false);
+        punten.increasePointsOfWe(15,false,false);
         assert (punten.getPointsOfWe()==15);
     }
 
     @Test
     void test60() {
-        punten.addW_Points(30,false,false);
+        punten.increasePointsOfWe(30,false,false);
         assert (punten.getPointsOfWe()==60);
     }
     @Test
     void testMee() {
-        punten.addW_Points(1,true,false);
+        punten.increasePointsOfWe(1,true,false);
         assert (punten.getPointsOfWe()==2);
-        punten.addZ_Points(8,true,false);
+        punten.increasePointsOfThem(8,true,false);
         assert (punten.getPointsOfThem()==16);
     }
     @Test
     void testTegen() {
         assert (punten.getPointsOfWe()==0&&punten.getPointsOfThem()==0);
-        punten.addW_Points(6,true,true);
+        punten.increasePointsOfWe(6,true,true);
         assert (punten.getPointsOfWe()==4*6);
 
-        punten.addZ_Points(1,false,false);
-        punten.addZ_Points(3,true,true);
+        punten.increasePointsOfThem(1,false,false);
+        punten.increasePointsOfThem(3,true,true);
         assert (punten.getPointsOfThem()==1+3*4);
     }
     @Test
     void testDubbelNormaal() {
-        punten.addW_Points(11,false,false);
-        punten.addZ_Points(15,false,false);
+        punten.increasePointsOfWe(11,false,false);
+        punten.increasePointsOfThem(15,false,false);
         assert (punten.getPointsOfThem()==15);
         assert (punten.getPointsOfWe()==11);
-        punten.addW_Points(0,false,false);//nul dus volgede dubbel
-        punten.addZ_Points(8,false,false);
+        punten.increasePointsOfWe(0,false,false);//nul dus volgede dubbel
+        punten.increasePointsOfThem(8,false,false);
         assert (punten.getPointsOfThem()==8*2+15);
         assert (punten.getPointsOfWe()==11);
     }
     @Test
     void testDubbelMee() {
-        punten.addW_Points(11,false,false);
-        punten.addZ_Points(15,false,false);
+        punten.increasePointsOfWe(11,false,false);
+        punten.increasePointsOfThem(15,false,false);
         assert (punten.getPointsOfThem()==15);
         assert (punten.getPointsOfWe()==11);
-        punten.addW_Points(0,false,false);//nul dus volgede dubbel
-        punten.addZ_Points(8,true,false);
+        punten.increasePointsOfWe(0,false,false);//nul dus volgede dubbel
+        punten.increasePointsOfThem(8,true,false);
         assert (punten.getPointsOfThem()==8*2*2+15);
         assert (punten.getPointsOfWe()==11);
     }
     @Test
     void testDubbelTegen() {
-        punten.addW_Points(11,false,false);
-        punten.addZ_Points(15,false,false);
+        punten.increasePointsOfWe(11,false,false);
+        punten.increasePointsOfThem(15,false,false);
         assert (punten.getPointsOfThem()==15);
         assert (punten.getPointsOfWe()==11);
-        punten.addW_Points(0,false,false);//nul dus volgede dubbel
-        punten.addZ_Points(8,true,true);
+        punten.increasePointsOfWe(0,false,false);//nul dus volgede dubbel
+        punten.increasePointsOfThem(8,true,true);
         assert (punten.getPointsOfThem()==8*2*2+15);
         assert (punten.getPointsOfWe()==11);
     }
@@ -108,13 +108,13 @@ class PointsTest {
     //@Test
     void getW_Wins() {
         //Werkt nog niet zonder xml file
-        punten.addW_Points(11,false,false);
-        punten.addZ_Points(6,false,false);
-        punten.addZ_Points(25,false,false);
-        punten.addW_Points(5,false,false);
-        punten.addZ_Points(30,true,false);
-        punten.addW_Points(15,false,false);
-        punten.addZ_Points(5,true,false);
+        punten.increasePointsOfWe(11,false,false);
+        punten.increasePointsOfThem(6,false,false);
+        punten.increasePointsOfThem(25,false,false);
+        punten.increasePointsOfWe(5,false,false);
+        punten.increasePointsOfThem(30,true,false);
+        punten.increasePointsOfWe(15,false,false);
+        punten.increasePointsOfThem(5,true,false);
 
         //W:31,Z:91
     }

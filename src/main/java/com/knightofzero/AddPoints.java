@@ -95,12 +95,12 @@ public class AddPoints {
         else if (correct_Form){
             if(W.isSelected()) {
 
-                score.addW_Points(Number,mee.isSelected(),tegen.isSelected());
+                score.increasePointsOfWe(Number,mee.isSelected(),tegen.isSelected());
                 mee.setSelected(false);
                 tegen.setSelected(false);
             }
             else if(Z.isSelected()) {
-                score.addZ_Points(Number,mee.isSelected(),tegen.isSelected());
+                score.increasePointsOfThem(Number,mee.isSelected(),tegen.isSelected());
                 mee.setSelected(false);
                 tegen.setSelected(false);
             }
