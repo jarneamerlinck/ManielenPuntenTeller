@@ -7,7 +7,7 @@ import java.awt.event.*;
 
 public class Gui extends JFrame {
     public JTextField currentScore;
-    private JTextArea w;
+    private JTextArea currentScoreText;
     private JButton addscore;
     private JButton newGame;
     private JFileChooser filefind;
@@ -22,16 +22,16 @@ public class Gui extends JFrame {
         super("Manielen Punten Teller");
 
         setLayout(new FlowLayout());
-        AddPoints ad = new AddPoints(score);
-        ad.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        ad.frame.pack();
+        AddPoints addPoints = new AddPoints(score);
+        addPoints.frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        addPoints.frame.pack();
         currentScore = new JTextField();
 
-        ad.frame.setSize(300,100);
-        ad.frame.setVisible(false);
-        w = new JTextArea("W-Z");
-        w.setEditable(false);
-        add(w,BorderLayout.NORTH);
+        addPoints.frame.setSize(300,100);
+        addPoints.frame.setVisible(false);
+        currentScoreText = new JTextArea("W-Z");
+        currentScoreText.setEditable(false);
+        add(currentScoreText,BorderLayout.NORTH);
         addscore = new JButton("+");
         add(addscore,BorderLayout.NORTH);
         addscore.hide();
@@ -61,7 +61,7 @@ public class Gui extends JFrame {
                         score.setNames_W(name[0],name[1]);
                         score.setNames_Z(name[2],name[3]);
                         JOptionPane.showConfirmDialog(rootPane, String.format("The teams are %s en %s vs. %s en %s", score.getNamesOfPlayersInWe()[0],score.getNamesOfPlayersInWe()[1],score.getNamesOfPlayersInThem()[0],score.getNamesOfPlayersInThem()[1]), "Continu is correct", JOptionPane.OK_CANCEL_OPTION);
-                        w.setText(String.format("%s en %s vs. %s en %s", score.getNamesOfPlayersInWe()[0],score.getNamesOfPlayersInWe()[1],score.getNamesOfPlayersInThem()[0],score.getNamesOfPlayersInThem()[1]));
+                        currentScoreText.setText(String.format("%s en %s vs. %s en %s", score.getNamesOfPlayersInWe()[0],score.getNamesOfPlayersInWe()[1],score.getNamesOfPlayersInThem()[0],score.getNamesOfPlayersInThem()[1]));
                         newGame.hide();
                         remove(newGame);
                         score.newgame();
@@ -83,8 +83,8 @@ public class Gui extends JFrame {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
-                ad.frame.setLocationRelativeTo(rootPane);
-                ad.frame.setVisible(true);
+                addPoints.frame.setLocationRelativeTo(rootPane);
+                addPoints.frame.setVisible(true);
                 currentScore.setText(String.format("Wins: %d-%d\n\nCurrent: %d-%d", score.getNumberOfWonGamesOfWe(),score.getNumberOfWonGamesOfThem(),score.getPointsOfWe(),score.getPointsOfThem()));
 
             }

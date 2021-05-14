@@ -13,7 +13,7 @@ public class AddPoints {
     private JRadioButton tegen;
     private JButton submit;
     private ButtonGroup whoGroup;
-    private int Number;
+    private int number;
 
     /**
      * Makes the GUI appear and functional
@@ -73,7 +73,7 @@ public class AddPoints {
     private void pointsChecker(Points score) {
         boolean correct_Form=true;;
         try {
-            Number = Integer.parseInt(scorefield.getText());
+            number = Integer.parseInt(scorefield.getText());
 
         } catch (Exception e) {
             reset(true);
@@ -83,27 +83,35 @@ public class AddPoints {
 
 
         }
-        if (Number<0) {
+        if (number <0) {
             reset(false);
             JOptionPane.showMessageDialog(frame, "Score can't be lower than 0");
         }
-        else if (Number>30) {
+        else if (number >30) {
             reset(false);
             JOptionPane.showMessageDialog(frame, "Score can't be greater than 30");
 
         }
         else if (correct_Form){
+            SetResults setResults = new SetResults();
+            setResults.setMee(mee.isSelected());
+            setResults.setTegen(tegen.isSelected());
+            setResults.setWho((W.isSelected()) ? "w":"z");
+            setResults.setScore(number);
+            score.increasePoints(setResults);
+
+            /*
             if(W.isSelected()) {
 
                 score.increasePointsOfWe(Number,mee.isSelected(),tegen.isSelected());
-                mee.setSelected(false);
-                tegen.setSelected(false);
             }
             else if(Z.isSelected()) {
                 score.increasePointsOfThem(Number,mee.isSelected(),tegen.isSelected());
-                mee.setSelected(false);
-                tegen.setSelected(false);
             }
+
+            */
+            mee.setSelected(false);
+            tegen.setSelected(false);
             reset(true);
             JOptionPane.showMessageDialog(frame, score.toString());
 

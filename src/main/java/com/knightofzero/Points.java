@@ -89,15 +89,7 @@ public class Points {
     public int getPointsOfWe() {
         return pointsOfWe;
     }
-    /**
-     * adding points to the first team
-     * @param adding an int value that needs to be added
-     * @param mee a boolean that multiplied by 2
-     * @param tegen a boolean that multiplied by 2
-     */
-    public void increasePointsOfWe(int adding, boolean mee, boolean tegen) {
-        addPoints(adding,mee,tegen,"W");
-    }
+
     /**
      * returns the current points for the second team on
      * @return this returns a value of the type int
@@ -111,15 +103,11 @@ public class Points {
     public int getNumberOfWonGamesOfThem() {
         return numberOfWonGamesOfThem;
     }
-    /**
-     * adding points to the second team
-     * @param adding an int value that needs to be added
-     * @param mee a boolean that multiplied by 2
-     * @param tegen a boolean that multiplied by 2
-     */
-    public void increasePointsOfThem(int adding, boolean mee, boolean tegen) {
-        addPoints(adding,mee,tegen,"Z");
+
+    public void increasePoints(SetResults setResults) {
+        addPoints(setResults);
     }
+
 
     /**
      * Returns the names of the players in the first team
@@ -193,21 +181,12 @@ public class Points {
 
     }
 
-    /**
-     * This method is private and used for adding and writing to the .xml file.
-     * This method also decides is the 'boom' has ended
-     * @param score a value of the type int
-     * @param mee a boolean that multiplied by 2
-     * @param tegen a boolean that multiplied by 2
-     * @param who a String that indicated who has won the points
-     */
-    private void addPoints(int score,boolean mee,boolean tegen,String who){
-        if(isCorrectMultiplierBooleans(mee, tegen)){
-            score = calculateScore(score, mee, tegen);
 
-            addScoreToPoints(score, who);
+    private void addPoints(SetResults setResults) {
+        if (isCorrectMultiplierBooleans(setResults.isMee(), setResults.isTegen())) {
+            int score = calculateScore(setResults);
+            addScoreToPoints(score, setResults.getWho());
         }
-
     }
     private int calculateScoreRuleMaxAtStartGame(int score, boolean mee){
         if (isMaxScoreFromStartGame(score, mee)){
@@ -216,7 +195,7 @@ public class Points {
         }
         return score;
     }
-    private int calculateRuleScoreNull(int score, boolean mee, boolean tegen){
+    private int calculateRuleScoreNull(int score, SetResults setResults){
         if(isScoreNull(score)){
             pointMultiplier *= 2;
         }
@@ -224,16 +203,16 @@ public class Points {
             pointMultiplier = 1;
             return score * 4;
         }
-        else if(isScoreMaxAndNotMee(score, mee)){
-            return calculateScoreWithMultiplier(score, tegen);
+        else if(isScoreMaxAndNotMee(score, setResults.isMee())){
+            return calculateScoreWithMultiplier(score, setResults.isTegen());
         }
         return score;
     }
-    private int calculateScore(int score, boolean mee, boolean tegen) {
-        score = calculateScoreRuleMaxAtStartGame(score, mee);
-        score = calculateRuleScoreNull(score, mee, tegen);
+    private int calculateScore(SetResults setResults) {
+        int score = calculateScoreRuleMaxAtStartGame(setResults.getScore(), setResults.isMee());
+        score = calculateRuleScoreNull(score, setResults);
         if (isScoreMax(score)){
-            return getScoreIfScoreMax(score, mee, tegen);
+            return getScoreIfScoreMax(score, setResults.isMee(), setResults.isTegen());
         }
         return score;
     }
@@ -327,4 +306,6 @@ public class Points {
     public String toString() {
         return String.format("The wins score is %d-%d, in the current game the score is %d-%d\n", numberOfWonGamesOfWe, numberOfWonGamesOfThem, pointsOfWe, pointsOfThem);
     }
+
+
 }
